@@ -20,14 +20,14 @@ SOURCEDIR=${SOURCEDIR/%\/$PACKAGEDIR/} # remove package prefix from path
 if [ -n "$TM_JAVA_FILEGLOB" ]; then
   # "$TM_JAVAC" -d "$output" -encoding UTF8 $TM_JAVA_FILEGLOB; rc=$?;
   # echo "$TM_JAVAC" -sourcepath "$SOURCEDIR" -d "$output" -encoding UTF8 $TM_JAVA_FILEGLOB;
-  "$TM_JAVAC" -sourcepath "$SOURCEDIR" -d "$output" -encoding UTF8 $TM_JAVA_FILEGLOB; rc=$?;
+  "$TM_JAVAC" -sourcepath "$SOURCEDIR" -d "$output" -encoding UTF8 -g $TM_JAVA_FILEGLOB; rc=$?;
   if (($rc >= 1)); then exit $rc; fi
 fi
 
 if [[ "$SOURCE" != $TM_JAVA_FILEGLOB ]]; then
   # "$TM_JAVAC" -d "$output" -encoding UTF8 "$SOURCE"; rc=$?;
   # echo "$TM_JAVAC" -sourcepath "$SOURCEDIR" -d "$output" -encoding UTF8 $SOURCE;
-  "$TM_JAVAC" -sourcepath "$SOURCEDIR" -d "$output" -encoding UTF8 "$SOURCE"; rc=$?;
+  "$TM_JAVAC" -sourcepath "$SOURCEDIR" -d "$output" -encoding UTF8 -g "$SOURCE"; rc=$?;
   if (($rc >= 1)); then exit $rc; fi
 fi
 
@@ -38,6 +38,7 @@ then
 fi
 
 
-CLASSPATH="$output:$CLASSPATH" "$TM_JAVA" -Dfile.encoding=utf-8 "$CLASS" $@;
+CLASSPATH="$output:$CLASSPATH" "$TM_JAVA" -Dfile.encoding=utf-8 org.junit.runner.JUnitCore "$CLASS" $@;
+# "$TM_JAVA" -Dfile.encoding=utf-8 org.junit.runner.JUnitCore "$CLASS" $@;
 # CLASSPATH="$output:$CLASSPATH" "$TM_JAVA" -Dfile.encoding="utf-8" "$CLASS" $@;
 exit $?;

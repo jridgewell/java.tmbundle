@@ -38,6 +38,6 @@ then
 fi
 
 
-CLASSPATH="$output:$CLASSPATH" "$TM_JAVA" -Dfile.encoding=utf-8 "$CLASS" $@;
+CLASSPATH="$output:$CLASSPATH" "$TM_JAVA" -ea -esa -Dfile.encoding=utf-8 "$CLASS" $@;
 # CLASSPATH="$output:$CLASSPATH" "$TM_JAVA" -Dfile.encoding="utf-8" "$CLASS" $@;
 exit $?;

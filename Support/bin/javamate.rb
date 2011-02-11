@@ -23,6 +23,10 @@ TextMate::Executor.make_project_master_current_document
 cmd = ["java_compile_and_run.sh"]
 cmd << ENV['TM_FILEPATH']
 script_args = []
+if ENV.include? 'TM_JAVAMATE_SPECIAL'
+  cmd = ["java_compile_and_run_#{ENV['TM_JAVAMATE_SPECIAL']}.sh"]
+  cmd << ENV['TM_FILEPATH']
+end
 if ENV.include? 'TM_JAVAMATE_GET_ARGS'
   prev_args = JavaMatePrefs.get("prev_args")
   args = TextMate::UI.request_string(:title => "JavaMate", :prompt => "Enter any command line options:", :default => prev_args)
@@ -48,7 +52,7 @@ TextMate::Executor.run(cmd, :version_args => ["--version"], :script_args => scri
   case type
   when :err
     line.chomp!
-    if line =~ /(.+\.java):(\d+):(.*)$/ 
+    if line =~ /(.+\.java):(\d+):(.*)$/
       path = Pathname.new($1)
       line_no = $2
       error = $3
